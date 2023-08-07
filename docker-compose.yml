@@ -8,9 +8,10 @@ services:
       context: ./
       dockerfile: ./postgres_image/Dockerfile
       args:
-        DATABASE_NAME: service_db
-        DATABASE_USER: service-user
-        DATABASE_USER_PASSWORD: password
+        POSTGRES_TAG: "${postgres_tag}"
+        DATABASE_NAME: "${postgres_db}"
+        DATABASE_USER: "${postgres_user}"
+        DATABASE_USER_PASSWORD: "${postgres_user_pass}"
     ports:
       - "5432:5432"
     volumes:
@@ -21,10 +22,10 @@ services:
 
   pgadmin:
     container_name: pgadmin-ui
-    image: dpage/pgadmin4:latest
+    image: "dpage/pgadmin4:${pgadmin_tag}"
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_DEFAULT_EMAIL: "${pgadmin_email}"
+      PGADMIN_DEFAULT_PASSWORD: "${pgadmin_email_pass}"
     ports:
       - 5050:80
     restart: unless-stopped
