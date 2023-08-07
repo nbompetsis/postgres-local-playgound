@@ -9,16 +9,18 @@ services:
       dockerfile: ./postgres_image/Dockerfile
       args:
         POSTGRES_TAG: "${postgres_tag}"
-        DATABASE_NAME: "${postgres_db}"
-        DATABASE_USER: "${postgres_user}"
-        DATABASE_USER_PASSWORD: "${postgres_user_pass}"
+        DATABASE_NAME: "${postgres_service_db}"
+        DATABASE_USER: "${postgres_service_user}"
+        DATABASE_USER_PASSWORD: "${postgres_service_user_pass}"
     ports:
       - "5432:5432"
     volumes:
       - ./pgdata:/var/lib/postgresql/data
     restart: unless-stopped
     environment:
-      POSTGRES_PASSWORD: password
+      POSTGRES_DB: "${postgres_default_db}"
+      POSTGRES_USER: "${postgres_super_user}"
+      POSTGRES_PASSWORD: "${postgres_super_user_pass}"
 
   pgadmin:
     container_name: pgadmin-ui
