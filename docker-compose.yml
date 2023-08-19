@@ -5,8 +5,7 @@ services:
     container_name: postgres-db
     image: io.nbompetsis/postgres:latest
     build:
-      context: ./
-      dockerfile: ./postgres_image/Dockerfile
+      context: ./postgres-build
       args:
         POSTGRES_TAG: "${postgres_tag}"
         DATABASE_NAME: "${postgres_service_db}"
