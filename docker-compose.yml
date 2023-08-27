@@ -11,6 +11,7 @@ services:
         DATABASE_NAME: "${postgres_service_db}"
         DATABASE_USER: "${postgres_service_user}"
         DATABASE_USER_PASSWORD: "${postgres_service_user_pass}"
+        DATABASE_SCHEMA: "${postgres_service_schema}"
     ports:
       - "${postgres_port}:5432"
     volumes:
@@ -51,6 +52,7 @@ services:
       - FLYWAY_USER=${postgres_service_user}
       - FLYWAY_PASSWORD=${postgres_service_user_pass}
       - FLYWAY_URL=jdbc:postgresql://db:${postgres_port}/${postgres_service_db}
+      - FLYWAY_DEFAULT_SCHEMA=${postgres_service_schema}
       - FLYWAY_TABLE=service_history
       - FLYWAY_BASELINE_ON_MIGRATE=false
     command: -connectRetries=${flyway_migration_retries} migrate
