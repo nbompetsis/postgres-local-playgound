@@ -43,3 +43,19 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+  migration:
+    container_name: postgres_migration
+    image: flyway/flyway:${flyway_tag}
+    environment:
+      - FLYWAY_USER=${postgres_service_user}
+      - FLYWAY_PASSWORD=${postgres_service_user_pass}
+      - FLYWAY_URL=jdbc:postgresql://db:${postgres_port}/${postgres_service_db}
+      - FLYWAY_TABLE=service_history
+      - FLYWAY_BASELINE_ON_MIGRATE=false
+    command: -connectRetries=${flyway_migration_retries} migrate
+    volumes:
+      - ./migration/scripts:/flyway/sql
+    depends_on:
+      db:
+        condition: service_healthy
